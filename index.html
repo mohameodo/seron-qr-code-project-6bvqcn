@@ -3,77 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Hub | Scan & Generate</title>
+    <title>QR Code Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-slate-50 font-sans flex items-center justify-center min-h-screen">
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col items-center justify-center min-h-screen p-4">
 
-    <div class="w-full max-w-md mx-auto p-4 md:p-6">
-        <header class="text-center mb-6">
-            <h1 class="text-3xl font-bold text-slate-800">QR Code Hub</h1>
-            <p class="text-slate-500 mt-1">Your simple tool for scanning and creating QR codes.</p>
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+        <header class="p-6">
+            <h1 class="text-2xl font-bold text-center text-gray-900">QR Code Hub</h1>
+            <p class="text-sm text-gray-500 text-center mt-1">Scan or create QR codes with ease.</p>
         </header>
 
-        <main class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <!-- Tab Navigation -->
-            <div class="flex border-b border-slate-200">
-                <button id="scan-tab" class="tab-button active-tab">
-                    <i class="fa-solid fa-qrcode mr-2"></i> Scan
-                </button>
-                <button id="generate-tab" class="tab-button">
-                    <i class="fa-solid fa-plus-square mr-2"></i> Generate
-                </button>
+        <div class="px-6 pb-2">
+            <div class="flex bg-gray-100 rounded-full p-1">
+                <button id="scan-tab-btn" class="tab-btn active flex-1 py-2.5 px-4 text-sm font-semibold rounded-full focus:outline-none flex items-center justify-center gap-2"><i class="fa-solid fa-qrcode"></i> Scan</button>
+                <button id="generate-tab-btn" class="tab-btn flex-1 py-2.5 px-4 text-sm font-semibold rounded-full focus:outline-none flex items-center justify-center gap-2"><i class="fa-solid fa-pen-ruler"></i> Generate</button>
             </div>
+        </div>
 
-            <!-- App Content -->
-            <div class="p-6">
-                <!-- Scanner Section -->
-                <div id="scanner-section">
-                    <div id="scanner-container" class="relative w-full aspect-square bg-slate-900 rounded-lg overflow-hidden hidden">
-                        <video id="qr-video" class="w-full h-full object-cover"></video>
-                        <div class="scanner-overlay"></div>
+        <main class="p-6">
+            <!-- Scanner Content -->
+            <div id="scanner-content" class="tab-content">
+                <div id="video-container" class="relative w-full aspect-square bg-gray-900 rounded-lg overflow-hidden flex items-center justify-center text-white mb-4">
+                    <video id="qr-video" playsinline class="w-full h-full object-cover"></video>
+                    <div id="loading-message" class="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50">
+                        <p>Unable to access camera. Please grant permission.</p>
                     </div>
-                    <button id="start-scan-btn" class="action-button w-full mt-4">
-                        <i class="fa-solid fa-camera mr-2"></i> Start Camera Scan
-                    </button>
-                    <div id="scan-result-container" class="mt-4 p-4 bg-slate-100 rounded-lg text-center hidden">
-                        <p class="text-slate-500 mb-2">Scanned Result:</p>
-                        <p id="scan-result" class="text-slate-800 font-semibold break-words"></p>
-                        <button id="copy-btn" class="copy-button mt-3">
-                            <i class="fa-solid fa-copy mr-2"></i> Copy
+                    <div class="scanner-overlay"></div>
+                </div>
+                <div id="scan-result-container" class="hidden">
+                    <h3 class="font-semibold mb-2">Scan Result:</h3>
+                    <div class="relative bg-gray-100 p-3 rounded-lg">
+                        <p id="scan-result" class="text-sm break-all pr-10"></p>
+                        <button id="copy-btn" class="absolute top-1/2 right-2 -translate-y-1/2 text-gray-500 hover:text-blue-600 p-2">
+                            <i class="fa-solid fa-copy"></i>
                         </button>
                     </div>
                 </div>
+            </div>
 
-                <!-- Generator Section -->
-                <div id="generator-section" class="hidden">
-                    <p class="text-slate-600 mb-2">Enter text or URL:</p>
-                    <textarea id="qr-text" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="e.g., https://seron.dev"></textarea>
-                    <button id="generate-btn" class="action-button w-full mt-4">
-                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Generate QR Code
-                    </button>
-                    <div id="qrcode-container" class="mt-4 p-4 border border-slate-200 rounded-lg hidden">
-                       <div id="qrcode" class="mx-auto"></div>
-                       <button id="download-btn" class="download-button w-full mt-4">
-                           <i class="fa-solid fa-download mr-2"></i> Download QR Code
-                       </button>
-                    </div>
+            <!-- Generator Content -->
+            <div id="generator-content" class="tab-content hidden">
+                 <div class="mb-4">
+                    <label for="qr-text" class="block text-sm font-medium text-gray-700 mb-1">Enter text or URL</label>
+                    <textarea id="qr-text" rows="3" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="https://seron.dev"></textarea>
                 </div>
+                <div id="qrcode-container" class="w-full aspect-square bg-gray-100 rounded-lg flex items-center justify-center p-4 mb-4">
+                     <div id="qrcode"></div>
+                </div>
+                <button id="download-btn" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2" disabled>
+                    <i class="fa-solid fa-download"></i> Download QR Code
+                </button>
             </div>
         </main>
     </div>
 
-    <a href="https://seron.dev" target="_blank" class="fixed bottom-4 right-4 bg-white/80 backdrop-blur-sm text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-full shadow-md hover:bg-white transition-colors duration-300">
+    <a href="https://seron.dev" target="_blank" class="fixed bottom-4 right-4 bg-white text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-full shadow-md hover:bg-gray-100 transition-transform transform hover:scale-105">
         Made by Seron
     </a>
 
-    <script src="js/lib/qrcode.min.js"></script>
-    <script src="js/lib/jsQR.js"></script>
-    <script src="js/main.js"></script>
+    <canvas id="qr-canvas" class="hidden"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
