@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Hub | Scan & Generate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-50 font-sans flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-md mx-auto p-4 md:p-6">
+        <header class="text-center mb-6">
+            <h1 class="text-3xl font-bold text-slate-800">QR Code Hub</h1>
+            <p class="text-slate-500 mt-1">Your simple tool for scanning and creating QR codes.</p>
+        </header>
+
+        <main class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Tab Navigation -->
+            <div class="flex border-b border-slate-200">
+                <button id="scan-tab" class="tab-button active-tab">
+                    <i class="fa-solid fa-qrcode mr-2"></i> Scan
+                </button>
+                <button id="generate-tab" class="tab-button">
+                    <i class="fa-solid fa-plus-square mr-2"></i> Generate
+                </button>
+            </div>
+
+            <!-- App Content -->
+            <div class="p-6">
+                <!-- Scanner Section -->
+                <div id="scanner-section">
+                    <div id="scanner-container" class="relative w-full aspect-square bg-slate-900 rounded-lg overflow-hidden hidden">
+                        <video id="qr-video" class="w-full h-full object-cover"></video>
+                        <div class="scanner-overlay"></div>
+                    </div>
+                    <button id="start-scan-btn" class="action-button w-full mt-4">
+                        <i class="fa-solid fa-camera mr-2"></i> Start Camera Scan
+                    </button>
+                    <div id="scan-result-container" class="mt-4 p-4 bg-slate-100 rounded-lg text-center hidden">
+                        <p class="text-slate-500 mb-2">Scanned Result:</p>
+                        <p id="scan-result" class="text-slate-800 font-semibold break-words"></p>
+                        <button id="copy-btn" class="copy-button mt-3">
+                            <i class="fa-solid fa-copy mr-2"></i> Copy
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Generator Section -->
+                <div id="generator-section" class="hidden">
+                    <p class="text-slate-600 mb-2">Enter text or URL:</p>
+                    <textarea id="qr-text" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="e.g., https://seron.dev"></textarea>
+                    <button id="generate-btn" class="action-button w-full mt-4">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Generate QR Code
+                    </button>
+                    <div id="qrcode-container" class="mt-4 p-4 border border-slate-200 rounded-lg hidden">
+                       <div id="qrcode" class="mx-auto"></div>
+                       <button id="download-btn" class="download-button w-full mt-4">
+                           <i class="fa-solid fa-download mr-2"></i> Download QR Code
+                       </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <a href="https://seron.dev" target="_blank" class="fixed bottom-4 right-4 bg-white/80 backdrop-blur-sm text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-full shadow-md hover:bg-white transition-colors duration-300">
+        Made by Seron
+    </a>
+
+    <script src="js/lib/qrcode.min.js"></script>
+    <script src="js/lib/jsQR.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
